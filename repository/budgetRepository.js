@@ -4,8 +4,9 @@ var Budget   = require('../models/budget'),
 
 module.exports = {
   Save : function(req, res){
-    var expenseItemIds = req.body.expenseItem,
-    expenseItems = [], budget = new Budget();
+    var budget = new Budget(),
+    expenseItemIds = req.body.expenseItem;
+    
     budget.month = req.body.month;
     budget.description = req.body.description;
 	budget.amount = req.body.amount;  
@@ -18,25 +19,24 @@ module.exports = {
         budget.user = user;
     });
 
-    for(let id of expenseItemIds) {
-        ExpenseItem.find({'_id': expenseItemIds[id]}).exec()
-        .then(item => {
-            expenseItems.push(item);
-        }).catch(error => {
-        res.send(error);  
-      });
-    }  
+    for(let id in expenseItemIds) {
+        ExpenseItem.findById(expenseItemIds[id], 
+            function (error, item) {
+            if(error)
+                res.send(error);
 
-    for(let item of expenseItems) {
-        budget.expenseItem = item
-        budget.save(err =>  {
-            res.send(err);
-        });
-    }
-    res.json({ message: 'expenseItem saved!' });
+            budget.expenseItem = item;
+            budget.save(function(err) {
+                if (err)
+                    res.send(err);
+        
+            });
+        })
+    }  
   },
   getAll : function(req , res){
-    budget.find({expense : req.query.expense})
+    Budget.find()
+    .populate('User')
     .populate('ExpenseItem')
     .exec(function(error, budgets) {
         if(error)
