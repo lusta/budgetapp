@@ -12,8 +12,8 @@ var jwt = require('jsonwebtoken');
 var config = require('./config/database');
 var fileUpload = require('express-fileupload');
 
-mongoose.connect(config.localdb);
-//mongoose.connect(config.database);
+//mongoose.connect(config.localdb);
+mongoose.connect(config.database);
 
 var api = require('./routes/api');
 var budgetApi = require('./routes/budget');

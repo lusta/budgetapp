@@ -19,19 +19,13 @@ module.exports = {
         budget.user = user;
     });
 
-    for(let id in expenseItemIds) {
-        ExpenseItem.findById(expenseItemIds[id], 
-            function (error, item) {
-            if(error)
-                res.send(error);
-
-            budget.expenseItem = item;
-            budget.save(function(err) {
-                if (err)
-                    res.send(err);
-        
-            });
-        })
+    for(let item in expenseItemIds) {
+        budget.expenseItem = expenseItemIds[item];
+        budget.save(function(err) {
+            if (err)
+                res.send(err);
+    
+        });
     }  
   },
   getAll : function(req , res){
