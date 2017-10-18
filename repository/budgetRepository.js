@@ -5,13 +5,13 @@ var Budget   = require('../models/budget'),
 module.exports = {
   Save : function(req, res){
     var budget = new Budget(),
-    expenseItemIds = req.body.expenseItem;
+    expenseItems = req.body.expenseItems;
     
     budget.month = req.body.month;
     budget.description = req.body.description;
 	budget.amount = req.body.amount;  
-	budget.create_at = req.body.create_at;
-    budget.updated_at = req.body.updated_at;
+	budget.create_at = new Date();
+    budget.updated_at = new Date();
 
     User.findById(req.body.user, function (error, user) {
         if (error) 
@@ -19,8 +19,8 @@ module.exports = {
         budget.user = user;
     });
 
-    for(let item in expenseItemIds) {
-        budget.expenseItem = expenseItemIds[item];
+    for(let item in expenseItems) {
+        budget.expenseItem = expenseItems[item];
         budget.save(function(err) {
             if (err)
                 res.send(err);
