@@ -1,5 +1,6 @@
 var Budget   = require('../models/budget'),
     User   = require('../models/user'),
+    async = require('async'),
     ExpenseItem   = require('../models/expenseItem');
 
 module.exports = {
@@ -9,7 +10,8 @@ module.exports = {
     
     budget.month = req.body.month;
     budget.description = req.body.description;
-	budget.amount = req.body.amount;  
+    budget.amount = req.body.amount;  
+    budget.expenseItem = req.body.expenseItems;
 	budget.create_at = new Date();
     budget.updated_at = new Date();
 
@@ -19,15 +21,25 @@ module.exports = {
         budget.user = user;
     });
 
-    for(let item in expenseItems) {
-        budget.expenseItem = expenseItems[item];
-        budget.save(function(err) {
-            if (err)
-                res.send(err);
-    
-        });
-    }  
+    async.each(expenseItems, function (item, Save) {
+        budget.expenseItem = element;
+        Save(budget);
+    },
+    function (error) {
+     if (error) 
+            res.json(500, {error: error});
+        
+        return res.json(201, 'Budget saved' );
+    });
   },
+  
+  Save : function ( aModel ) {
+    aModel.save(function(err) {
+        if (err)
+            res.send(err);
+    });
+  },
+
   getAll : function(req , res){
     Budget.find()
     .populate('User')
