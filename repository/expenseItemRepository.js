@@ -5,9 +5,9 @@ module.exports = {
     var expenseItem = new ExpenseItem();
     expenseItem.name = req.body.name;
     expenseItem.description = req.body.description;
-	expenseItem.price = req.body.price;  
-	expenseItem.expense = req.body.expense;
-	expenseItem.create_at = req.body.create_at;
+	  expenseItem.price = req.body.price;
+	  expenseItem.expense = req.body.expense;
+	  expenseItem.create_at = req.body.create_at;
     expenseItem.updated_at = req.body.updated_at;
 
 	expenseItem.save(function(err) {
@@ -23,7 +23,7 @@ module.exports = {
     .exec(function(error, expenseItems) {
         if(error)
             res.send(err);
-        res.json(expenseItems);           
+        res.json(expenseItems);
     })
   },
  delete : function(req){

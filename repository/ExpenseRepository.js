@@ -6,11 +6,11 @@ module.exports = {
     var expense = new Expense();
     expense.name = req.body.name;
     expense.description = req.body.description;
-	expense.amount = req.body.amount;  
-	expense.user = req.body.user;
-	expense.create_at = req.body.create_at;
+	  expense.amount = req.body.amount;
+	  expense.user = req.body.user;
+	  expense.create_at = req.body.create_at;
     expense.updated_at = req.body.updated_at;
-	expense.save(function(err) {
+	  expense.save(function(err) {
 		if (err)
 			res.send(err);
 
@@ -23,7 +23,7 @@ module.exports = {
     .exec(function(error, expenses) {
         if(error)
             res.send(err);
-        res.json(expenses);           
+        res.json(expenses);
     })
   },
   edit : function(mExpense , res){
@@ -33,7 +33,7 @@ module.exports = {
             res.send(err);
         expense.name = req.body.name;
         expense.description = req.body.description;
-        expense.amount = req.body.amount;  
+        expense.amount = req.body.amount;
         expense.create_at = req.body.create_at;
         expense.updated_at = req.body.updated_at;
 

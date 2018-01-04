@@ -11,9 +11,11 @@ var passport = require('passport');
 var jwt = require('jsonwebtoken');
 var config = require('./config/database');
 var fileUpload = require('express-fileupload');
+var MongoClient = require('mongodb').MongoClient;
+var test = require('./config/testData');
 
-//mongoose.connect(config.localdb);
-mongoose.connect(config.database);
+//mongoose.connect(config.localConnection);
+mongoose.connect(config.remoteConnection);
 
 var api = require('./routes/api');
 var budgetApi = require('./routes/budget');
@@ -25,7 +27,7 @@ var ExpenseItemApi = require('./routes/expenseItem');
 var TransactionApi = require('./routes/transaction');
 
 var app = express();
- 
+
 app.use(fileUpload({
   limits: { fileSize: 50 * 1024 * 1024 },
 }));
@@ -45,28 +47,28 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   var url = req.url;
 
-  if (url !== "/auth/signin" && 
+  if (url !== "/auth/signin" &&
       url !== "/auth/signup" &&
       url !== "/auth/reset") {
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
     // decode token
     if (token) {
       // verifies secret and checks exp
-      jwt.verify(token, config.secret , function(err, decoded) {      
+      jwt.verify(token, config.secret , function(err, decoded) {
         if (err) {
-          return res.json({ success: false, message: 'Failed to authenticate token.' });    
+          return res.json({ success: false, message: 'Failed to authenticate token.' });
         } else {
           // if everything is good, save to request for use in other routes
-          req.decoded = decoded;    
+          req.decoded = decoded;
           //next();
         }
       });
     } else {
       // if there is no token
       // return an error
-      return res.status(403).send({ 
-          success: false, 
-          message: 'access forbiden.' 
+      return res.status(403).send({
+          success: false,
+          message: 'access forbiden.'
       });
     }
   }

@@ -16,10 +16,10 @@ user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
 },
-expenseItem: {
+expenseItem: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ExpenseItem'
-},
+}],
 create_at: {
     type: String,
     required: true

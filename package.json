@@ -24,6 +24,7 @@
     "express-session": "^1.15.2",
     "jade": "~1.11.0",
     "jsonwebtoken": "^7.3.0",
+    "mongodb": "^3.0.1",
     "mongodb-stitch": "0.0.24",
     "mongoose": "^4.9.3",
     "morgan": "^1.7.0",
