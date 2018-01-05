@@ -16,8 +16,8 @@ user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
 },
-expenseItem: [{
-    type: mongoose.Schema.Types.ObjectId,
+expenseitems: [{
+    type: mongoose.Schema.ObjectId,
     ref: 'ExpenseItem'
 }],
 create_at: {

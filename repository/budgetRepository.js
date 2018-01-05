@@ -1,3 +1,5 @@
+'use strict';
+
 var Budget   = require('../models/budget'),
     User   = require('../models/user'),
     async = require('async'),
@@ -11,8 +13,8 @@ module.exports = {
     budget.description = req.body.description;
     budget.amount = req.body.amount;
     budget.user = req.body.user;
-    budget.expenseItem = req.body.expenseItems;
-	  budget.create_at = new Date();
+    budget.expenseitems = req.body.expenseItems;
+	budget.create_at = new Date();
     budget.updated_at = new Date();
 
     budget.save(function(err) {
@@ -24,11 +26,11 @@ module.exports = {
 
   getAll : function(req , res){
     Budget.find()
-    .populate('User')
-    .populate('ExpenseItem')
+    .populate('user',['_id','username'])
+    .populate('expenseitems')
     .exec(function(error, budgets) {
         if(error)
-            res.send(err);
+            res.send(error);
         res.json(budgets);
     })
   },

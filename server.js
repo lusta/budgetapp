@@ -11,8 +11,6 @@ var passport = require('passport');
 var jwt = require('jsonwebtoken');
 var config = require('./config/database');
 var fileUpload = require('express-fileupload');
-var MongoClient = require('mongodb').MongoClient;
-var test = require('./config/testData');
 
 //mongoose.connect(config.localConnection);
 mongoose.connect(config.remoteConnection);
